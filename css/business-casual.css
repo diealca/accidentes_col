@@ -64,3 +64,10 @@ hr.divider {
 .map-container iframe.clicked {
   pointer-events: auto;
 }
+rect {
+  fill: steelblue;
+}
+
+text {
+  fill: black;
+}
