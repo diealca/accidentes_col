@@ -8,7 +8,7 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
     <meta name="description" content="Accidentalidad en Colombia">
-    <meta name="keywords" content="Peligro, Colombia, Tr&aacutensito, Horas, Seguridad, Accidentes, Choques">
+    <meta name="keywords" content="Peligro, Colombia, Tr&aacutensito, Horas, Seguridad, Accidentes, Choques, Antioquia">
     <meta name="author" content="">
 
     <title>Peligro al volante en Colombia</title>
@@ -40,7 +40,7 @@
 </style>
   <body>
 
-    <div class="tagline-upper text-center text-heading text-shadow text-white mt-5 d-none d-lg-block">Peligro al volante en Colombia/div>
+    <div class="tagline-upper text-center text-heading text-shadow text-white mt-5 d-none d-lg-block">Peligro al volante en Colombia</div>
     
 
     <div class="container">
@@ -50,10 +50,11 @@
 
       <div class="bg-faded p-4 my-4">
         <hr class="divider">
-        <h2 class="text-center text-lg text-uppercase my-0">Comportamiento de los accidentes de transito en Colombia</strong>
+        <h2 class="text-center text-lg text-uppercase my-0">El departamento mas peligroso para conducir es Antioquia</strong>
         </h2>
         <hr class="divider">
-        <p aling="justify">A partir de los datos del registro nacional de accidentes de tránsito, disponibles en sitio web de datos abiertos (<a href="https://www.datos.gov.co/Transporte/Registro-nacional-de-accidentes-de-transito/jb4r-tjbv">Link</a>), se realizó la visualización que se muestra a continuación  </p>
+        <p aling="justify">A partir de los datos del registro nacional de accidentes de tránsito, disponibles en sitio web de datos abiertos (<a href="https://www.datos.gov.co/Transporte/Registro-nacional-de-accidentes-de-transito/jb4r-tjbv">Link</a>), se realizó la visualización que se muestra a continuación. En ella se evidencia que existen tres grupos. El primero de estos con mayor accidentalidad en el cual únicamente se encuentra Antioquia, con picos de accidentes de más de 180 por día. En el segundo grupo con una menor accidentalidad diaria, se encuentran Bogotá y el Valle del Cauca, los cuales presentan un comportamiento similar en su accidentalidad durante el año y con una tendencia a 80 accidentes. Por último se encuentran los demás departamentos los cuales presentan menos de 20 accidentes diarios.</p>
+        <p>Se evidencia también que los departamentos de Vichada y el Archipiélago de San Andrés y Providencia no presentan reportes después del segundo semestre de 2010.</p>
         <svg width="960" height="500"></svg>
       </div>
 
@@ -88,7 +89,7 @@ var x = d3.scaleTime().range([0, width]),
 
 var line = d3.line()
     .curve(d3.curveBasis)
-    .x(function(d) { return x(d.key); })
+    .x(function(d) { return x(new Date(d.key)); })
     .y(function(d) { return y(d.value); });
     
     
@@ -102,19 +103,6 @@ d3.csv("/data/data.csv", function(data) {
     .rollup(function(leaves) { return leaves.length; })
     .entries(data);
    console.log(JSON.stringify(mydata));
-
- /** var cities = data.columns.slice(1).map(function(id) {
-    return {
-      id: id,
-      values: data.map(function(d) {
-        return {date: d.date, temperature: d[id]};
-      })
-    };
-  });
-**
-*/
-
-
 
   x.domain(d3.extent(data, function(d) { return d.fecha; }));
 
@@ -151,10 +139,11 @@ d3.csv("/data/data.csv", function(data) {
       .attr("d", function(d) { return line(d.values); })
       .style("stroke", function(d) { return z(d.key); });
 
- //var p = timeFormat.timeParse("%a %m /%d /%Y");
+ //var p = timeFormat.timeParse("%a %m %d %Y");
+  
   departamento.append("text")
       .datum(function(d) { return {id: d.key, value: d.values[d.values.length - 1]}; })
-      .attr("transform", function(d) { return "translate("+ x(d.value.value) + "," + y(d.value.value) + ")"; })
+      .attr("transform", function(d) {return "translate("+ x(new Date(d.value.key)) + "," + y(d.value.value) + ")"; })
       .attr("x", 3)
       .attr("dy", "0.35em")
       .style("font", "10px sans-serif")
