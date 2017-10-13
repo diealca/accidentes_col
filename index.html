@@ -92,7 +92,8 @@ var line = d3.line()
     .x(function(d) { return x(new Date(d.key)); })
     .y(function(d) { return y(d.value); });
     
-    
+<!-- Carlos Diaz: Creo que deberías considerar poner máximo cuatro o cinco departamentos y mencionar en el texto que se muestran los
+  que más siniestros presentan: se gana en estética, se mantiene el insight y se evita mostrar info que ni te quita ni te pone -->
 d3.csv("data/data.csv", function(data) {
   data.forEach(function(d) {
     d.fecha = parseTime(d.fecha);
@@ -133,13 +134,15 @@ d3.csv("data/data.csv", function(data) {
     .data(mydata)
     .enter().append("g")
       .attr("class", "departamento");
-
+  
+  <!-- Carlos Diaz: Aqui hubiera sido bueno ponerle un mouseover para que mostrara el value para cada punto del path 
+  (para que la visualización fuera interactiva) -->
   departamento.append("path")
       .attr("class", "line")
       .attr("d", function(d) { return line(d.values); })
       .style("stroke", function(d) { return z(d.key); });
 
- //var p = timeFormat.timeParse("%a %m %d %Y");
+ <!-- Carlos Diaz: Borré las partes del código que estaban comentadas para darle mejor presentación -->
   
   departamento.append("text")
       .datum(function(d) { return {id: d.key, value: d.values[d.values.length - 1]}; })
@@ -149,13 +152,6 @@ d3.csv("data/data.csv", function(data) {
       .style("font", "10px sans-serif")
       .text(function(d) { return d.id; });
 
-/**
-function type(d, _, columns) {
-  d.fecha = parseTime(d.fecha);
-  for (var i = 1, n = columns.length, c; i < n; ++i) d[c = columns[i]] = +d[c];
-  return d;
-}
-**/
 });
     </script>
     
